@@ -349,10 +349,30 @@ const INTERVIEW_STATE = {
   stepIndex: 0,
   answers: {},
   candidateChoices: {},
+  optionOrder: {},
   directChecks: {},
   autoFilled: {},
   autoRedFlag: false,
 };
+
+function shuffleInPlace(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function getOrderedOptions(q) {
+  if (!q || !Array.isArray(q.options)) return [];
+  const cached = INTERVIEW_STATE.optionOrder[q.id];
+  if (Array.isArray(cached) && cached.length === q.options.length) {
+    return cached.map((idx) => q.options[idx]).filter(Boolean);
+  }
+  const idxs = shuffleInPlace(q.options.map((_, idx) => idx));
+  INTERVIEW_STATE.optionOrder[q.id] = idxs;
+  return idxs.map((idx) => q.options[idx]).filter(Boolean);
+}
 
 function getMode() {
   if (document.documentElement.classList.contains("candidate-mode")) return "candidate";
@@ -570,13 +590,15 @@ function renderInterviewStep() {
   card.appendChild(top);
 
   step.questions.forEach((q) => {
-    const box = el("div", "border border-violet-600/30 rounded-xl p-4 mb-3 bg-dark-800/50", null);
+    const box = el("div", "border border-violet-600/30 rounded-xl p-4 mb-6 bg-dark-800/50", null);
     if (!isCandidateMode()) box.appendChild(el("div", "font-medium text-slate-200", q.title));
-    box.appendChild(el("div", "text-sm text-slate-300 mt-1", isCandidateMode() && q.candidatePrompt ? q.candidatePrompt : q.prompt));
+    box.appendChild(el("div", "text-lg font-medium text-slate-100 mt-1", isCandidateMode() && q.candidatePrompt ? q.candidatePrompt : q.prompt));
+
+    const orderedOptions = getOrderedOptions(q);
 
     if (isCandidateMode()) {
       const optWrap = el("div", "grid md:grid-cols-2 gap-2 mt-3", null);
-      q.options.forEach((opt) => {
+      orderedOptions.forEach((opt) => {
         const isSelected = INTERVIEW_STATE.candidateChoices[q.id]?.key === opt.label;
         const label = el("label", "border rounded-xl p-3 cursor-pointer transition " + (isSelected ? "border-violet-400 bg-violet-600/20 ring-1 ring-violet-400/50" : "border-violet-600/30 bg-dark-800 hover:bg-dark-700 hover:border-violet-600/50"), null);
         const radio = el("input", "mr-2 accent-blue-600", null);
@@ -600,7 +622,7 @@ function renderInterviewStep() {
       box.appendChild(optWrap);
     } else {
       const optWrap = el("div", "grid md:grid-cols-4 gap-2 mt-3", null);
-      q.options.forEach((opt) => {
+      orderedOptions.forEach((opt) => {
         const id = `${q.id}_${opt.score}`;
         const isAdminSel = INTERVIEW_STATE.answers[q.id]?.score === opt.score;
         const label = el("label", "border rounded-xl p-2 cursor-pointer transition " + (isAdminSel ? "border-violet-400 bg-violet-600/20 ring-1 ring-violet-400/50" : "border-violet-600/30 bg-dark-800 hover:bg-dark-700 hover:border-violet-600/50"), null);
@@ -763,10 +785,14 @@ function bindInterviewNav() {
       }
       if (isCandidateMode() && INTERVIEW_STATE.stepIndex === INTERVIEW_FLOW.length - 1) {
         showCandidateThankYou();
+        const anchor = document.getElementById("interviewSection") || document.body;
+        anchor.scrollIntoView({ behavior: "smooth", block: "start" });
         return;
       }
       INTERVIEW_STATE.stepIndex = Math.min(INTERVIEW_FLOW.length - 1, INTERVIEW_STATE.stepIndex + 1);
       renderInterviewStep();
+      const anchor = document.getElementById("interviewSection") || document.body;
+      anchor.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }
 }
@@ -1191,6 +1217,7 @@ function bindEvents() {
       INTERVIEW_STATE.stepIndex = 0;
       INTERVIEW_STATE.answers = {};
       INTERVIEW_STATE.candidateChoices = {};
+      INTERVIEW_STATE.optionOrder = {};
       INTERVIEW_STATE.directChecks = {};
       INTERVIEW_STATE.autoFilled = {};
       INTERVIEW_STATE.autoRedFlag = false;
