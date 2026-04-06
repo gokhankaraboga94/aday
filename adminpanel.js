@@ -100,36 +100,40 @@ function buildCertificateHtml(doc) {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Mobilfon Akademi — Sertifika</title>
+    <title>Mobilfon Akademi — Değerlendirme Raporu</title>
     <style>
       *{box-sizing:border-box}
-      body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#0b1220;color:#0f172a}
-      .page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px}
-      .card{width:900px;max-width:100%;background:#ffffff;border-radius:18px;overflow:hidden;box-shadow:0 25px 70px rgba(0,0,0,.35)}
-      .top{padding:22px 26px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e5e7eb}
-      .brand{display:flex;gap:14px;align-items:center}
-      .brand img{height:42px;width:auto}
-      .brand .t1{font-weight:800;letter-spacing:.2px;font-size:16px;color:#0f172a}
+      body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f1f5f9;color:#0f172a}
+      .page{min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:28px}
+      .card{width:860px;max-width:100%;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e2e8f0;box-shadow:0 10px 25px rgba(2,6,23,.08)}
+      .top{padding:20px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e2e8f0}
+      .brand{display:flex;gap:12px;align-items:center}
+      .brand img{height:36px;width:auto}
+      .brand .t1{font-weight:800;letter-spacing:.2px;font-size:14px;color:#0f172a}
       .brand .t2{font-size:12px;color:#475569;margin-top:2px}
-      .badge{font-size:12px;color:#0f172a;background:#eef2ff;border:1px solid #c7d2fe;padding:8px 10px;border-radius:999px;font-weight:700}
-      .content{padding:30px 34px}
-      .title{font-size:34px;font-weight:900;color:#0f172a;margin:0}
-      .subtitle{margin:8px 0 0;color:#334155;font-size:14px;line-height:1.6}
-      .name{margin:22px 0 0;font-size:26px;font-weight:900;color:#111827}
-      .desc{margin:10px 0 0;color:#334155;font-size:14px;line-height:1.7}
-      .grid{margin-top:22px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-      .box{border:1px solid #e5e7eb;border-radius:14px;padding:14px 14px}
-      .k{font-size:11px;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
-      .v{margin-top:6px;font-size:14px;color:#0f172a;font-weight:800}
-      .score{margin-top:18px;border-radius:16px;background:linear-gradient(90deg,#2563eb,#7c3aed,#10b981);padding:18px;color:#fff}
-      .score .s1{font-size:12px;opacity:.9;font-weight:700}
-      .score .s2{margin-top:4px;font-size:36px;font-weight:900;letter-spacing:.2px}
-      .score .s3{margin-top:4px;font-size:12px;opacity:.95}
-      .foot{padding:16px 26px;border-top:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;color:#64748b;font-size:11px}
+      .badge{font-size:11px;color:#0f172a;background:#f8fafc;border:1px solid #e2e8f0;padding:6px 10px;border-radius:999px;font-weight:700}
+      .content{padding:26px 24px}
+      .title{font-size:22px;font-weight:900;color:#0f172a;margin:0;letter-spacing:.2px}
+      .subtitle{margin:6px 0 0;color:#475569;font-size:12px;line-height:1.6}
+      .name{margin:16px 0 0;font-size:18px;font-weight:900;color:#111827}
+      .grid{margin-top:16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+      .box{border:1px solid #e2e8f0;border-radius:10px;padding:12px 12px;background:#ffffff}
+      .k{font-size:10px;color:#64748b;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+      .v{margin-top:6px;font-size:13px;color:#0f172a;font-weight:800}
+      .scores{margin-top:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+      .scorebox{border:1px solid #e2e8f0;border-radius:10px;padding:12px 12px;background:#f8fafc}
+      .scorebox .k{color:#475569}
+      .scorebox .v{font-size:16px}
+      .final{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;border:1px solid #cbd5e1;border-radius:10px;padding:14px 14px;background:#ffffff}
+      .final .left{display:flex;flex-direction:column;gap:2px}
+      .final .t{font-size:10px;color:#64748b;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+      .final .w{font-size:11px;color:#475569}
+      .final .n{font-size:26px;font-weight:900;color:#0f172a}
+      .foot{padding:14px 24px;border-top:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;color:#64748b;font-size:10px}
       @media print{
         body{background:#fff}
         .page{padding:0}
-        .card{box-shadow:none;border-radius:0;width:100%}
+        .card{box-shadow:none;border-radius:0;width:100%;border:none}
       }
     </style>
   </head>
@@ -141,32 +145,38 @@ function buildCertificateHtml(doc) {
             <img src="${logo}" alt="Mobilfon" />
             <div>
               <div class="t1">Mobilfon Akademi</div>
-              <div class="t2">Teknik Servis &amp; Cihaz Yenileme — Değerlendirme</div>
+              <div class="t2">Aday Değerlendirme</div>
             </div>
           </div>
-          <div class="badge">Sertifika / Rapor</div>
+          <div class="badge">Rapor</div>
         </div>
 
         <div class="content">
-          <h1 class="title">Başarı Sertifikası</h1>
-          <p class="subtitle">Bu belge, Mobilfon Akademi değerlendirme süreci kapsamında oluşturulmuştur.</p>
+          <h1 class="title">Değerlendirme Raporu</h1>
+          <p class="subtitle">Bu rapor, Mobilfon Akademi değerlendirme süreci kapsamında sistem tarafından otomatik oluşturulmuştur.</p>
 
           <div class="name">${fullName}</div>
-          <p class="desc"><b>${fullName}</b>, Mobilfon Akademi ön değerlendirme ve mülakat aşamalarını <b>başarı ile tamamlamıştır</b>.</p>
 
           <div class="grid">
             <div class="box"><div class="k">Aday ID</div><div class="v">${candidateId}</div></div>
             <div class="box"><div class="k">Şube</div><div class="v">${branch}</div></div>
             <div class="box"><div class="k">Başvuru Tarihi</div><div class="v">${createdAt}</div></div>
             <div class="box"><div class="k">Değerlendirme Tarihi</div><div class="v">${updatedAt}</div></div>
-            <div class="box"><div class="k">Ön Başvuru</div><div class="v">%${Math.round(prePercent)}</div></div>
-            <div class="box"><div class="k">Rubrik / Canlı</div><div class="v">${Math.round(rubricTotal)}/100 · ${Math.round(liveTotal)}/35</div></div>
+            <div class="box"><div class="k">Ön Başvuru Skoru</div><div class="v">%${Math.round(prePercent)}</div></div>
+            <div class="box"><div class="k">Mülakat Skoru</div><div class="v">${Math.round(rubricTotal)}/100</div></div>
           </div>
 
-          <div class="score">
-            <div class="s1">Final Skor (0–100)</div>
-            <div class="s2">${finalScore}</div>
-            <div class="s3">Ağırlıklar: Ön Başvuru %30 · Rubrik %50 · Canlı Test %20</div>
+          <div class="scores">
+            <div class="scorebox"><div class="k">Ön Başvuru</div><div class="v">%${Math.round(prePercent)}</div></div>
+            <div class="scorebox"><div class="k">Rubrik</div><div class="v">${Math.round(rubricTotal)}/100</div></div>
+            <div class="scorebox"><div class="k">Canlı Test</div><div class="v">${Math.round(liveTotal)}/35</div></div>
+            <div class="final">
+              <div class="left">
+                <div class="t">Final Skor</div>
+                <div class="w">Ağırlıklar: Ön Başvuru %30 · Rubrik %50 · Canlı Test %20</div>
+              </div>
+              <div class="n">${finalScore}</div>
+            </div>
           </div>
         </div>
 
@@ -467,6 +477,42 @@ async function firestoreUpdateDoc(id, patch) {
   await fb.db.ref(`evaluations/${id}`).update(patch);
 }
 
+async function firestoreDeleteDoc(id) {
+  const fb = window.TS_FIREBASE;
+  if (!fb || !fb.db) throw new Error("Firebase bağlantısı yok");
+  await fb.db.ref(`evaluations/${id}`).remove();
+}
+
+function clearSelectionUI() {
+  window.TS_SELECTED = null;
+  window.TS_SELECTED_DOC = null;
+  const selTitle = document.getElementById("selTitle");
+  const selMeta = document.getElementById("selMeta");
+  if (selTitle) selTitle.textContent = "Seçili Aday";
+  if (selMeta) selMeta.textContent = "Bir kayıt seç.";
+  const wrap = document.getElementById("answers");
+  if (wrap) wrap.innerHTML = "";
+  const preNode = document.getElementById("preScore");
+  if (preNode) preNode.textContent = "-";
+  recomputeTotals();
+  showSaveStatus("ok", "");
+}
+
+async function deleteEvaluationFromUI(id) {
+  if (!id) return;
+  const ok = confirm("Bu kaydı silmek istediğine emin misin? Bu işlem geri alınamaz.");
+  if (!ok) return;
+  try {
+    showStatus("warn", "Siliniyor...");
+    await firestoreDeleteDoc(id);
+    if (window.TS_SELECTED?.firestoreId === id) clearSelectionUI();
+    await refresh();
+    showStatus("ok", "Silindi.");
+  } catch (e) {
+    showStatus("err", `Silme hatası: ${e?.message || e}`);
+  }
+}
+
 function renderList(containerId, items) {
   const list = document.getElementById(containerId);
   if (!list) return;
@@ -498,11 +544,26 @@ function renderList(containerId, items) {
         downloadCertificateFor(r.firestoreId);
       });
 
+      const del = el(
+        "button",
+        "shrink-0 px-3 py-2 rounded-lg bg-rose-600/20 border border-rose-500/30 text-rose-200 text-xs font-semibold hover:bg-rose-600/30 transition"
+      );
+      del.type = "button";
+      del.textContent = "Sil";
+      del.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        deleteEvaluationFromUI(r.firestoreId);
+      });
+
       row.appendChild(btn);
       row.appendChild(dl);
+      row.appendChild(del);
       list.appendChild(row);
     } else {
-      const btn = el("button", "w-full text-left px-5 py-3 hover:bg-dark-800/60 transition");
+      const row = el("div", "flex items-stretch gap-2 px-3 py-3 hover:bg-dark-800/40 transition");
+
+      const btn = el("button", "flex-1 text-left px-2 py-1.5 rounded-lg hover:bg-dark-800/60 transition");
       btn.type = "button";
       btn.addEventListener("click", () => selectRow(r.firestoreId));
 
@@ -512,7 +573,22 @@ function renderList(containerId, items) {
       btn.appendChild(top);
 
       btn.appendChild(el("div", "text-xs text-slate-500 mt-1", `${r.candidateId || "-"} · ${r.branch || "-"} · ${r.createdAt ? String(r.createdAt).slice(0, 10) : "-"}`));
-      list.appendChild(btn);
+
+      const del = el(
+        "button",
+        "shrink-0 px-3 py-2 rounded-lg bg-rose-600/20 border border-rose-500/30 text-rose-200 text-xs font-semibold hover:bg-rose-600/30 transition"
+      );
+      del.type = "button";
+      del.textContent = "Sil";
+      del.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        deleteEvaluationFromUI(r.firestoreId);
+      });
+
+      row.appendChild(btn);
+      row.appendChild(del);
+      list.appendChild(row);
     }
   }
 }
